@@ -9,7 +9,7 @@ function Login() {
   const [password, setPassword] = useState("");
 
   const handleLogin = () => {
-    if (username === "admin" && password === "0292") {
+    if (username === "gaurav" && password === "0292") {
       navigate("/dashboard");
     } else {
       alert("Invalid Username or Password");

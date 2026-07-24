@@ -1,0 +1,30 @@
+.reports-page {
+  margin-left: 260px;
+  min-height: 100vh;
+  background: #0f172a;
+  padding: 30px;
+}
+
+.report-cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin: 25px 0;
+}
+
+.chart-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-top: 20px;
+  align-items: stretch;
+}
+
+.chart-box {
+  background: #1e293b;
+  border-radius: 15px;
+  padding: 20px;
+  width: 100%;
+  height: 420px;
+  box-sizing: border-box;
+}

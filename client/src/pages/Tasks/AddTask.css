@@ -1,0 +1,90 @@
+.popup{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,.65);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index:999;
+}
+
+.popupBox{
+    width:650px;
+    background:#1e293b;
+    border-radius:14px;
+    padding:30px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+}
+
+.popupBox h2{
+    grid-column:1/3;
+    color:#fff;
+    margin-bottom:10px;
+}
+
+.popupBox input,
+.popupBox select,
+.popupBox textarea{
+    width:100%;
+    padding:12px;
+    background:#0f172a;
+    border:1px solid #334155;
+    color:white;
+    border-radius:8px;
+    font-size:15px;
+    outline:none;
+}
+
+.popupBox textarea{
+    grid-column:1/3;
+    resize:none;
+    height:90px;
+}
+
+.buttons{
+    grid-column:1/3;
+    display:flex;
+    justify-content:flex-end;
+    gap:15px;
+    margin-top:10px;
+}
+
+.saveBtn{
+    background:#2563eb;
+    color:white;
+    border:none;
+    padding:12px 22px;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+.cancelBtn{
+    background:#ef4444;
+    color:white;
+    border:none;
+    padding:12px 22px;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+.saveBtn:hover{
+    background:#1d4ed8;
+}
+
+.cancelBtn:hover{
+    background:#dc2626;
+}
+
+.openBtn{
+    background:#2563eb;
+    color:white;
+    border:none;
+    padding:12px 20px;
+    border-radius:8px;
+    cursor:pointer;
+}

@@ -1,0 +1,64 @@
+.cards-container {
+
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:25px;
+margin-top:30px;
+
+}
+
+
+.card {
+
+background:#1e293b;
+padding:25px;
+border-radius:20px;
+color:white;
+box-shadow:0 10px 25px rgba(0,0,0,0.25);
+transition:0.3s;
+
+}
+
+
+.card:hover {
+
+transform:translateY(-5px);
+
+}
+
+
+.card-title {
+
+font-size:18px;
+color:#94a3b8;
+margin-bottom:20px;
+
+}
+
+
+.card h1 {
+
+font-size:42px;
+margin:0;
+color:#38bdf8;
+
+}
+
+
+
+@media(max-width:1000px){
+
+.cards-container{
+grid-template-columns:repeat(2,1fr);
+}
+
+}
+
+
+@media(max-width:600px){
+
+.cards-container{
+grid-template-columns:1fr;
+}
+
+}

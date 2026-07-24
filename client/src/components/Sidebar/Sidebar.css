@@ -1,0 +1,54 @@
+.sidebar {
+  width: 260px;
+  height: 100vh;
+  background: #131b2d;
+  position: fixed;
+  left: 0;
+  top: 0;
+  padding-top: 25px;
+  border-right: 1px solid #1f2937;
+}
+
+.logo {
+  color: #3b82f6;
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 70px;
+}
+
+nav {
+  display: flex;
+  flex-direction: column;
+}
+
+.menu {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  color: white;
+  text-decoration: none;
+
+  padding: 18px 35px;
+
+  font-size: 18px;
+  font-weight: 500;
+
+  transition: 0.3s;
+}
+
+.menu:hover {
+  background: #1f2937;
+  color: #60a5fa;
+}
+
+.menu.active {
+  color: #60a5fa;
+  background: #1f2937;
+  border-left: 4px solid #3b82f6;
+}
+
+.menu span {
+  font-size: 17px;
+}

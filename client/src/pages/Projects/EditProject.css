@@ -1,0 +1,54 @@
+.popup{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.6);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index:999;
+}
+
+.popupBox{
+  width:450px;
+  background:white;
+  padding:25px;
+  border-radius:10px;
+  display:flex;
+  flex-direction:column;
+  gap:15px;
+}
+
+.popupBox input{
+  padding:10px;
+}
+
+.buttons{
+  display:flex;
+  justify-content:flex-end;
+}
+
+.cancelBtn{
+  background:#dc2626;
+  color:white;
+  border:none;
+  padding:10px 20px;
+  cursor:pointer;
+  border-radius:6px;
+}.saveBtn{
+    background:#2563eb;
+    color:white;
+    border:none;
+    padding:10px 20px;
+    border-radius:6px;
+    cursor:pointer; 
+    margin-right:10px;
+}
+
+.cancelBtn{
+    background:#dc2626;
+    color:white;
+    border:none;
+    padding:10px 20px;
+    border-radius:6px;
+    cursor:pointer;
+}

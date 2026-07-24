@@ -1,0 +1,63 @@
+.projects-page{
+    color:white;
+}
+
+.projects-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.add-btn{
+    background:#2563eb;
+    color:white;
+    border:none;
+    padding:12px 20px;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+.project-table{
+    width:100%;
+    border-collapse:collapse;
+    background:#1e293b;
+    border-radius:10px;
+    overflow:hidden;
+}
+
+.project-table th{
+    background:#2563eb;
+    padding:15px;
+}
+
+.project-table td{
+    padding:15px;
+    text-align:center;
+    border-bottom:1px solid #334155;
+}
+
+.running{
+    background:#16a34a;
+    padding:6px 12px;
+    border-radius:20px;
+}
+
+.edit{
+    background:orange;
+    color:white;
+    border:none;
+    padding:8px 12px;
+    margin-right:8px;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+.delete{
+    background:red;
+    color:white;
+    border:none;
+    padding:8px 12px;
+    border-radius:6px;
+    cursor:pointer;
+}

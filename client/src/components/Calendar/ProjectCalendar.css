@@ -1,0 +1,218 @@
+.calendar-box{
+    margin-top:35px;
+    background:#1e293b;
+    padding:25px;
+    border-radius:20px;
+    color:white;
+    box-shadow:0 10px 30px rgba(0,0,0,.35);
+    animation:fade .5s ease;
+}
+
+.calendar-box h2{
+    color:#60a5fa;
+    margin-bottom:20px;
+    font-size:30px;
+}
+
+/* ===== Calendar ===== */
+
+.calendar-box .react-calendar{
+    width:100%;
+    background:#0f172a;
+    color:white;
+    border:none;
+    border-radius:15px;
+    padding:15px;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+.calendar-box .react-calendar button{
+    color:white;
+    background:transparent;
+    border:none;
+}
+
+.calendar-box .react-calendar__navigation{
+    margin-bottom:15px;
+}
+
+.calendar-box .react-calendar__navigation button{
+    color:white;
+    font-size:18px;
+    font-weight:bold;
+    min-height:40px;
+    border-radius:8px;
+}
+
+.calendar-box .react-calendar__navigation button:hover{
+    background:#2563eb;
+}
+
+.calendar-box .react-calendar__month-view__weekdays{
+    text-align:center;
+    color:#60a5fa;
+    font-weight:bold;
+    margin-bottom:10px;
+}
+
+.calendar-box .react-calendar__month-view__weekdays__weekday{
+    padding:10px 0;
+}
+
+.calendar-box .react-calendar__month-view__weekdays__weekday abbr{
+    text-decoration:none;
+}
+
+.calendar-box .react-calendar__tile{
+    height:60px;
+    color:white;
+    border-radius:10px;
+    transition:.3s;
+    position:relative;
+}
+
+.calendar-box .react-calendar__tile:hover{
+    background:#2563eb;
+}
+
+.calendar-box .react-calendar__tile--active{
+    background:#2563eb !important;
+}
+
+.calendar-box .react-calendar__tile--now{
+    background:#f59e0b !important;
+    color:black !important;
+    font-weight:bold;
+}
+
+/* ===== Deadline Dot ===== */
+
+.deadline-dot{
+    width:8px;
+    height:8px;
+    background:#ef4444;
+    border-radius:50%;
+    margin:3px auto 0;
+    animation:pulse 1.5s infinite;
+}
+
+@keyframes pulse{
+    0%{
+        transform:scale(1);
+        opacity:1;
+    }
+    50%{
+        transform:scale(1.5);
+        opacity:.5;
+    }
+    100%{
+        transform:scale(1);
+        opacity:1;
+    }
+}
+
+/* ===== Deadline List ===== */
+
+.deadline-list{
+    margin-top:30px;
+}
+
+.deadline-list h3{
+    color:#38bdf8;
+    margin-bottom:18px;
+}
+
+.deadline-item{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:#0f172a;
+    padding:15px 20px;
+    border-radius:12px;
+    margin-bottom:12px;
+    transition:.3s;
+    border-left:5px solid #22c55e;
+}
+
+.deadline-item:hover{
+    transform:translateX(5px);
+    background:#172033;
+}
+
+.deadline-item strong{
+    color:white;
+    font-size:17px;
+}
+
+.deadline-item p{
+    color:#94a3b8;
+    font-size:14px;
+    margin-top:4px;
+}
+
+/* ===== Status ===== */
+
+.status{
+    padding:5px 12px;
+    border-radius:20px;
+    color:white;
+    font-size:13px;
+    font-weight:bold;
+}
+
+.status.running{
+    background:#22c55e;
+}
+
+.status.completed{
+    background:#3b82f6;
+}
+
+.status.pending{
+    background:#f59e0b;
+}
+
+.no-project{
+    color:#94a3b8;
+    text-align:center;
+    padding:20px;
+}
+
+/* ===== Animation ===== */
+
+@keyframes fade{
+    from{
+        opacity:0;
+        transform:translateY(20px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+.running-dot,
+.completed-dot,
+.pending-dot,
+.overdue-dot{
+    width:10px;
+    height:10px;
+    border-radius:50%;
+    margin:4px auto;
+    animation:pulse 1.4s infinite;
+}
+
+.running-dot{
+    background:#22c55e;
+}
+
+.completed-dot{
+    background:#3b82f6;
+}
+
+.pending-dot{
+    background:#f59e0b;
+}
+
+.overdue-dot{
+    background:#ef4444;
+}

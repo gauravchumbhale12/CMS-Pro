@@ -1,0 +1,44 @@
+.activityBox {
+  background: #1e293b;
+  padding: 25px;
+  border-radius: 12px;
+  margin-top: 25px;
+}
+
+.activityBox h2 {
+  color: white;
+  margin-bottom: 20px;
+}
+
+.activityItem {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 12px 0;
+  border-bottom: 1px solid #334155;
+}
+
+.activityItem:last-child {
+  border-bottom: none;
+}
+
+.activityItem span {
+  font-size: 28px;
+}
+
+.activityItem h4 {
+  color: white;
+  margin: 0;
+}
+
+.activityItem p {
+  color: #94a3b8;
+  margin: 4px 0 0;
+  font-size: 14px;
+}
+
+.empty {
+  color: #94a3b8;
+  text-align: center;
+  padding: 30px;
+}

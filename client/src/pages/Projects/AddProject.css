@@ -1,91 +1,157 @@
-.openBtn {
-  background: #2563eb;
-  color: white;
-  border: none;
-  padding: 10px 18px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 15px;
-  transition: 0.3s;
+.openBtn{
+    background:linear-gradient(135deg,#2563eb,#3b82f6);
+    color:white;
+    border:none;
+    padding:12px 22px;
+    border-radius:12px;
+    font-size:15px;
+    font-weight:600;
+    cursor:pointer;
+    transition:.3s;
+    box-shadow:0 8px 20px rgba(37,99,235,.35);
 }
 
-.openBtn:hover {
-  background: #1d4ed8;
+.openBtn:hover{
+    transform:translateY(-3px) scale(1.03);
+    box-shadow:0 12px 25px rgba(37,99,235,.55);
 }
 
-.popup {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.6);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 999;
+.popup{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.65);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index:999;
+    animation:fadeIn .3s ease;
+    backdrop-filter:blur(6px);
 }
 
-.popupBox {
-  width: 500px;
-  background: white;
-  border-radius: 10px;
-  padding: 25px;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
+.popupBox{
+    width:480px;
+    background:linear-gradient(145deg,#1e293b,#273449);
+    border-radius:22px;
+    padding:30px;
+    color:white;
+    box-shadow:0 20px 40px rgba(0,0,0,.45);
+    border:1px solid rgba(255,255,255,.08);
+    animation:popup .35s ease;
 }
 
-.popupBox h2 {
-  text-align: center;
-  color: #1e293b;
-  margin-bottom: 10px;
+.popupBox h2{
+    text-align:center;
+    margin-bottom:25px;
+    font-size:28px;
 }
 
 .popupBox input,
-.popupBox select {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 15px;
-  outline: none;
-  box-sizing: border-box;
+.popupBox select{
+    width:100%;
+    padding:13px 15px;
+    margin-bottom:15px;
+    background:#0f172a;
+    border:1px solid #334155;
+    border-radius:10px;
+    color:white;
+    font-size:15px;
+    transition:.3s;
+    box-sizing:border-box;
 }
 
 .popupBox input:focus,
-.popupBox select:focus {
-  border-color: #2563eb;
+.popupBox select:focus{
+    outline:none;
+    border-color:#3b82f6;
+    box-shadow:0 0 12px rgba(59,130,246,.35);
 }
 
-.buttons {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
+.popupBox input[type="range"]{
+    padding:0;
+    margin-top:10px;
 }
 
-.saveBtn {
-  background: #16a34a;
-  color: white;
-  border: none;
-  padding: 10px 18px;
-  border-radius: 6px;
-  cursor: pointer;
+.progressBox{
+    margin-bottom:20px;
 }
 
-.saveBtn:hover {
-  background: #15803d;
+.progressBox label{
+    display:block;
+    margin-bottom:8px;
+    color:#cbd5e1;
+    font-weight:600;
 }
 
-.cancelBtn {
-  background: #dc2626;
-  color: white;
-  border: none;
-  padding: 10px 18px;
-  border-radius: 6px;
-  cursor: pointer;
+.buttons{
+    display:flex;
+    gap:15px;
+    margin-top:25px;
 }
 
-.cancelBtn:hover {
-  background: #b91c1c;
+.saveBtn{
+    flex:1;
+    padding:13px;
+    border:none;
+    border-radius:10px;
+    background:linear-gradient(135deg,#16a34a,#22c55e);
+    color:white;
+    font-size:16px;
+    font-weight:600;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.saveBtn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 10px 20px rgba(34,197,94,.35);
+}
+
+.cancelBtn{
+    flex:1;
+    padding:13px;
+    border:none;
+    border-radius:10px;
+    background:#334155;
+    color:white;
+    font-size:16px;
+    font-weight:600;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.cancelBtn:hover{
+    background:#475569;
+}
+
+@keyframes popup{
+    from{
+        opacity:0;
+        transform:translateY(-40px) scale(.9);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0) scale(1);
+    }
+}
+
+@keyframes fadeIn{
+    from{
+        opacity:0;
+    }
+    to{
+        opacity:1;
+    }
+}
+
+@media(max-width:600px){
+
+.popupBox{
+    width:92%;
+    padding:22px;
+}
+
+.buttons{
+    flex-direction:column;
+}
+
 }

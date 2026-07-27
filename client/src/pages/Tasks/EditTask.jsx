@@ -1,8 +1,19 @@
 import { useState, useEffect } from "react";
 import "./AddTask.css";
+import { useNotification } from "../../context/NotificationContext";
 
-function EditTask({ task, projects, onUpdate, onClose }) {
+function EditTask({
+  task,
+  projects,
+  onUpdate,
+  onClose,
+}) {
   const [editTask, setEditTask] = useState(task);
+
+  const {
+    addNotification,
+    removeNotification,
+  } = useNotification();
 
   useEffect(() => {
     setEditTask(task);
@@ -16,7 +27,18 @@ function EditTask({ task, projects, onUpdate, onClose }) {
   };
 
   const handleSave = () => {
+
+    // Update Task
     onUpdate(editTask);
+
+    // Remove old notification
+    removeNotification(editTask.id);
+
+    // Completed असेल तर Notification Remove
+    if (editTask.status !== "Completed") {
+      addNotification(editTask);
+    }
+
     onClose();
   };
 
@@ -41,7 +63,10 @@ function EditTask({ task, projects, onUpdate, onClose }) {
           onChange={handleChange}
         >
           {projects.map((project) => (
-            <option key={project.id} value={project.name}>
+            <option
+              key={project.id}
+              value={project.name}
+            >
               {project.name}
             </option>
           ))}
@@ -88,13 +113,21 @@ function EditTask({ task, projects, onUpdate, onClose }) {
         />
 
         <div className="buttons">
-          <button className="saveBtn" onClick={handleSave}>
+
+          <button
+            className="saveBtn"
+            onClick={handleSave}
+          >
             Update
           </button>
 
-          <button className="cancelBtn" onClick={onClose}>
+          <button
+            className="cancelBtn"
+            onClick={onClose}
+          >
             Cancel
           </button>
+
         </div>
 
       </div>

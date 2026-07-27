@@ -3,14 +3,13 @@ import { useProject } from "../../context/ProjectContext";
 import { useTask } from "../../context/TaskContext";
 
 function ReportCards() {
-
   const { projects } = useProject();
   const { tasks } = useTask();
 
   const totalProjects = projects.length;
 
   const runningProjects = projects.filter(
-    (p) => p.status === "Running"
+    (p) => p.status === "Running" || p.status === "In Progress"
   ).length;
 
   const completedProjects = projects.filter(
@@ -19,34 +18,63 @@ function ReportCards() {
 
   const totalTasks = tasks.length;
 
+  const cards = [
+    {
+      icon: "📁",
+      title: "Total Projects",
+      value: totalProjects,
+      subtitle: "All registered projects",
+    },
+    {
+      icon: "🚀",
+      title: "Running Projects",
+      value: runningProjects,
+      subtitle: "Currently active",
+    },
+    {
+      icon: "✅",
+      title: "Completed",
+      value: completedProjects,
+      subtitle: "Successfully finished",
+    },
+    {
+      icon: "📝",
+      title: "Total Tasks",
+      value: totalTasks,
+      subtitle: "Tasks available",
+    },
+  ];
+
   return (
-
     <div className="reportCards">
+      {cards.map((card, index) => (
+        <div className="reportCard" key={index}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              marginBottom: "18px",
+            }}
+          >
+            <h4>{card.title}</h4>
 
-      <div className="reportCard">
-        <h4>Total Projects</h4>
-        <h1>{totalProjects}</h1>
-      </div>
+            <span
+              style={{
+                fontSize: "34px",
+              }}
+            >
+              {card.icon}
+            </span>
+          </div>
 
-      <div className="reportCard">
-        <h4>Running Projects</h4>
-        <h1>{runningProjects}</h1>
-      </div>
+          <h1>{card.value}</h1>
 
-      <div className="reportCard">
-        <h4>Completed Projects</h4>
-        <h1>{completedProjects}</h1>
-      </div>
-
-      <div className="reportCard">
-        <h4>Total Tasks</h4>
-        <h1>{totalTasks}</h1>
-      </div>
-
+          <p>{card.subtitle}</p>
+        </div>
+      ))}
     </div>
-
   );
-
 }
 
 export default ReportCards;

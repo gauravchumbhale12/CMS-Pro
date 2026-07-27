@@ -1,8 +1,12 @@
 import { useState } from "react";
 import "./AddTask.css";
+import { useNotification } from "../../context/NotificationContext";
 
 function AddTask({ onAdd, projects }) {
+
   const [open, setOpen] = useState(false);
+
+  const { addNotification } = useNotification();
 
   const [task, setTask] = useState({
     id: "",
@@ -22,6 +26,7 @@ function AddTask({ onAdd, projects }) {
   };
 
   const handleSave = () => {
+
     if (
       task.id === "" ||
       task.project === "" ||
@@ -32,7 +37,15 @@ function AddTask({ onAdd, projects }) {
       return;
     }
 
-    onAdd(task);
+    const newTask = {
+      ...task,
+      id: Number(task.id),
+    };
+
+    onAdd(newTask);
+
+    // Notification Add
+    addNotification(`🆕 New Task Added : ${task.name}`);
 
     setTask({
       id: "",
@@ -45,16 +58,22 @@ function AddTask({ onAdd, projects }) {
     });
 
     setOpen(false);
+
   };
 
   return (
     <>
-      <button className="openBtn" onClick={() => setOpen(true)}>
+      <button
+        className="openBtn"
+        onClick={() => setOpen(true)}
+      >
         + Add Task
       </button>
 
       {open && (
+
         <div className="popup">
+
           <div className="popupBox">
 
             <h2>Add Task</h2>
@@ -72,13 +91,19 @@ function AddTask({ onAdd, projects }) {
               value={task.project}
               onChange={handleChange}
             >
-              <option value="">Select Project</option>
+              <option value="">
+                Select Project
+              </option>
 
               {projects.map((project) => (
-                <option key={project.id} value={project.name}>
+                <option
+                  key={project.id}
+                  value={project.name}
+                >
                   {project.name}
                 </option>
               ))}
+
             </select>
 
             <input
@@ -125,7 +150,10 @@ function AddTask({ onAdd, projects }) {
 
             <div className="buttons">
 
-              <button className="saveBtn" onClick={handleSave}>
+              <button
+                className="saveBtn"
+                onClick={handleSave}
+              >
                 Save
               </button>
 
@@ -139,7 +167,9 @@ function AddTask({ onAdd, projects }) {
             </div>
 
           </div>
+
         </div>
+
       )}
     </>
   );

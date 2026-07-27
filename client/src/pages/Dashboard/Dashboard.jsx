@@ -3,6 +3,8 @@ import Navbar from "../../components/Navbar/Navbar";
 import DashboardCards from "../../components/Cards/DashboardCards";
 import ProjectChart from "../../components/Charts/ProjectChart";
 import UpcomingDeadlines from "../../components/Deadlines/UpcomingDeadlines";
+import ProjectCalendar from "../../components/Calendar/ProjectCalendar";
+
 function Dashboard() {
 
   return (
@@ -30,6 +32,8 @@ function Dashboard() {
         <ProjectChart />
 
         <UpcomingDeadlines />
+
+<ProjectCalendar />
 
 
       </div>

@@ -1,107 +1,97 @@
 import { useProject } from "../../context/ProjectContext";
 import "./ProjectChart.css";
 
-
-function ProjectChart(){
-
+function ProjectChart() {
   const { projects } = useProject();
 
-
   const running = projects.filter(
-    (p)=>p.status==="Running"
+    (p) => p.status === "Running" || p.status === "In Progress"
   ).length;
-
 
   const completed = projects.filter(
-    (p)=>p.status==="Completed"
+    (p) => p.status === "Completed"
   ).length;
-
 
   const pending = projects.filter(
-    (p)=>p.status==="Pending"
+    (p) => p.status === "Pending"
   ).length;
-
 
   const total = projects.length;
 
-
   return (
-
     <div className="chart-box">
 
-      <h2>Project Status Overview</h2>
+      <div className="chart-header">
+        <div>
+          <h2>📊 Project Analytics</h2>
+          <p>Live overview of project progress</p>
+        </div>
 
+        <span className="total-projects">
+          {total} Projects
+        </span>
+      </div>
 
       <div className="progress-container">
-
 
         <div className="progress-item">
 
           <div className="progress-label">
-            Running
+            <span>🚀 Running</span>
             <span>{running}</span>
           </div>
 
           <div className="bar">
-            <div 
+            <div
               className="running-bar"
               style={{
-                width:`${total ? (running/total)*100 : 0}%`
+                width: `${total ? (running / total) * 100 : 0}%`,
               }}
             ></div>
           </div>
 
         </div>
 
-
-
         <div className="progress-item">
 
           <div className="progress-label">
-            Completed
+            <span>✅ Completed</span>
             <span>{completed}</span>
           </div>
 
           <div className="bar">
-            <div 
+            <div
               className="completed-bar"
               style={{
-                width:`${total ? (completed/total)*100 : 0}%`
+                width: `${total ? (completed / total) * 100 : 0}%`,
               }}
             ></div>
           </div>
 
         </div>
-
-
 
         <div className="progress-item">
 
           <div className="progress-label">
-            Pending
+            <span>⏳ Pending</span>
             <span>{pending}</span>
           </div>
 
           <div className="bar">
-            <div 
+            <div
               className="pending-bar"
               style={{
-                width:`${total ? (pending/total)*100 : 0}%`
+                width: `${total ? (pending / total) * 100 : 0}%`,
               }}
             ></div>
           </div>
 
         </div>
 
-
       </div>
 
-
     </div>
-
   );
-
 }
-
 
 export default ProjectChart;

@@ -1,9 +1,11 @@
 import Sidebar from "../../components/Sidebar/Sidebar";
-import Navbar from "../../components/Navbar/Navbar";
 import "./Reports.css";
+
 import ReportCards from "../../components/Reports/ReportCards";
 import ProjectPieChart from "../../components/Reports/ProjectPieChart";
 import TaskBarChart from "../../components/Reports/TaskBarChart";
+import RecentActivity from "../../components/Reports/RecentActivity";
+import ExportButtons from "../../components/Reports/ExportButtons";
 
 function Reports() {
   return (
@@ -11,27 +13,25 @@ function Reports() {
       <Sidebar />
 
       <div className="reports-page">
-        <Navbar />
 
-        <h1 className="reports-title">📊 Reports Dashboard</h1>
+        <h1 className="reports-title">
+          📊 Reports Dashboard
+        </h1>
 
         <div className="reports-content">
 
-  <div className="chart-row">
-  <ProjectPieChart />
-  <TaskBarChart />
-</div>
+          <ReportCards />
 
-   <TaskBarChart />
-
-          <div className="report-section">
-            Recent Activity
+          <div className="export-row">
+            <ExportButtons />
           </div>
 
-          <div className="export-section">
-            Export Buttons
+          <div className="chart-row">
+            <ProjectPieChart />
+            <TaskBarChart />
           </div>
-          
+
+          <RecentActivity />
 
         </div>
 

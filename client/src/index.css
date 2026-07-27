@@ -8,3 +8,32 @@ body{
   font-family:Arial, Helvetica, sans-serif;
   background:#0f172a;
 }
+
+body{
+    transition:.3s;
+}
+
+body.dark-theme{
+    background:#020617;
+}
+
+body.light-theme{
+    background:#f3f4f6;
+}
+:root{
+  --bg:#020617;
+  background:var(--card);
+  --text:#ffffff;
+}
+
+body.dark-theme{
+  --bg:#020617;
+  background:var(--card);
+  --text:#ffffff;
+}
+
+body.light-theme{
+  --bg:#f3f4f6;
+  --card:#ffffff;
+  --text:#111827;
+}

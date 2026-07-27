@@ -12,7 +12,7 @@ function Projects() {
         style={{
           marginLeft: "260px",
           width: "100%",
-          background: "#0f172a",
+          background: "var(--bg)",
           minHeight: "100vh",
           padding: "30px",
         }}

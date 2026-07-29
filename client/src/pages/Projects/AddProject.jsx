@@ -22,11 +22,11 @@ function AddProject({ onAdd }) {
     });
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (
-      project.id === "" ||
-      project.name === "" ||
-      project.client === "" ||
+      project.id.trim() === "" ||
+      project.name.trim() === "" ||
+      project.client.trim() === "" ||
       project.start === "" ||
       project.end === ""
     ) {
@@ -34,11 +34,18 @@ function AddProject({ onAdd }) {
       return;
     }
 
-    onAdd({
-      ...project,
-      id: Number(project.id),
+    await onAdd({
+      id: project.id,
+      name: project.name,
+      client: project.client,
+      status: project.status,
+      priority: project.priority,
       progress: Number(project.progress),
+      start: project.start,
+      end: project.end,
     });
+
+    alert("Project Added Successfully");
 
     setProject({
       id: "",
@@ -114,7 +121,6 @@ function AddProject({ onAdd }) {
             </select>
 
             <div className="progressBox">
-
               <label>
                 Progress : {project.progress}%
               </label>
@@ -127,7 +133,6 @@ function AddProject({ onAdd }) {
                 value={project.progress}
                 onChange={handleChange}
               />
-
             </div>
 
             <input

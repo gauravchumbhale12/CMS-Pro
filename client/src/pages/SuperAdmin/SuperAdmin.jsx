@@ -2,10 +2,11 @@ import Sidebar from "../../components/Sidebar/Sidebar";
 import Navbar from "../../components/Navbar/Navbar";
 import DashboardCards from "../../components/Cards/DashboardCards";
 import ProjectChart from "../../components/Charts/ProjectChart";
-import UpcomingDeadlines from "../../components/Deadlines/UpcomingDeadlines";
 import ProjectCalendar from "../../components/Calendar/ProjectCalendar";
+import UpcomingDeadlines from "../../components/Deadlines/UpcomingDeadlines";
 
-function Dashboard() {
+
+function SuperAdmin() {
 
   return (
 
@@ -24,16 +25,25 @@ function Dashboard() {
         }}
       >
 
+
         <Navbar />
+
+
+        <h1 style={{color:"white"}}>
+          Super Admin Dashboard
+        </h1>
 
 
         <DashboardCards />
 
+
         <ProjectChart />
 
-      
 
-<ProjectCalendar />
+        <UpcomingDeadlines />
+
+
+        <ProjectCalendar />
 
 
       </div>
@@ -46,4 +56,4 @@ function Dashboard() {
 }
 
 
-export default Dashboard;
+export default SuperAdmin;

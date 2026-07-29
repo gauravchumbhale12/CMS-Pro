@@ -12,20 +12,22 @@ import {
 } from "react";
 
 import { useNotification } from "../../context/NotificationContext";
+import { useAuth } from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 function Navbar() {
-
   const [profileImage, setProfileImage] = useState("");
   const [time, setTime] = useState(new Date());
-
   const [showPanel, setShowPanel] = useState(false);
 
   const { notifications } = useNotification();
+  const { currentUser, logout } = useAuth();
+
+  const navigate = useNavigate();
 
   const fileInputRef = useRef(null);
 
   useEffect(() => {
-
     const savedImage = localStorage.getItem("profileImage");
 
     if (savedImage) {
@@ -37,11 +39,9 @@ function Navbar() {
     }, 1000);
 
     return () => clearInterval(timer);
-
   }, []);
 
   const handleImageChange = (e) => {
-
     const file = e.target.files[0];
 
     if (!file) return;
@@ -49,22 +49,23 @@ function Navbar() {
     const reader = new FileReader();
 
     reader.onloadend = () => {
-
       setProfileImage(reader.result);
 
       localStorage.setItem(
         "profileImage",
         reader.result
       );
-
     };
 
     reader.readAsDataURL(file);
+  };
 
+  const handleLogout = () => {
+    logout();
+    navigate("/");
   };
 
   return (
-
     <div className="navbar">
 
       {/* Live Clock */}
@@ -94,6 +95,8 @@ function Navbar() {
       {/* Right Side */}
 
       <div className="nav-right">
+
+        {/* Profile */}
 
         <div className="profile">
 
@@ -134,9 +137,13 @@ function Navbar() {
 
           <div className="profile-text">
 
-            <h4>Admin</h4>
+            <h4>
+              {currentUser?.name || "Guest"}
+            </h4>
 
-            <p>Administrator</p>
+            <p>
+              {currentUser?.role || ""}
+            </p>
 
           </div>
 
@@ -154,11 +161,9 @@ function Navbar() {
           <FaBell className="icon" />
 
           {notifications.length > 0 && (
-
             <span className="notification-badge">
               {notifications.length}
             </span>
-
           )}
 
           {showPanel && (
@@ -202,12 +207,19 @@ function Navbar() {
 
         </div>
 
+        {/* Logout */}
+
+        <button
+          className="logout-btn"
+          onClick={handleLogout}
+        >
+          Logout
+        </button>
+
       </div>
 
     </div>
-
   );
-
 }
 
 export default Navbar;

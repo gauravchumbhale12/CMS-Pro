@@ -85,7 +85,7 @@ function ProjectReportTable() {
           <tbody>
             {filteredProjects.map((project) => (
               <tr key={project.id}>
-                <td>{project.id}</td>
+                <td>{project.projectId}</td>
                 <td>{project.name}</td>
                 <td>{project.client}</td>
 

@@ -1,51 +1,85 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+} from "react";
+
+import {
+  collection,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+  doc,
+  onSnapshot,
+} from "firebase/firestore";
+
+import { db } from "../firebase/firebase";
 
 const ProjectContext = createContext();
 
 export const ProjectProvider = ({ children }) => {
-  const [projects, setProjects] = useState(() => {
-    const saved = localStorage.getItem("projects");
+  const [projects, setProjects] = useState([]);
 
-    if (saved) {
-      return JSON.parse(saved);
-    }
-
-    return [];
-  });
-
+  // Realtime Listener
   useEffect(() => {
-    localStorage.setItem("projects", JSON.stringify(projects));
-  }, [projects]);
+    const unsubscribe = onSnapshot(
+      collection(db, "projects"),
+      (snapshot) => {
+        const list = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
 
-const addProject = (project) => {
-  setProjects((prev) => [...prev, project]);
-};
-
-  const deleteProject = (id) => {
-    setProjects((prev) => prev.filter((p) => p.id !== id));
-  };
-
-const updateProject = (updatedProject) => {
-  setProjects((prev) => {
-    const updated = prev.map((project) =>
-      project.id === Number(updatedProject.oldId)
-        ? {
-            ...updatedProject,
-            id: Number(updatedProject.id),
-          }
-        : project
+        setProjects(list);
+      }
     );
 
-    return updated;
-  });
-};
+    return () => unsubscribe();
+  }, []);
+
+  // Add Project
+  const addProject = async (project) => {
+    await addDoc(collection(db, "projects"), {
+      projectId: Number(project.id),
+      name: project.name,
+      client: project.client,
+      status: project.status,
+      priority: project.priority,
+      progress: Number(project.progress),
+      start: project.start,
+      end: project.end,
+    });
+  };
+
+  // Update Project
+  const updateProject = async (project) => {
+    await updateDoc(doc(db, "projects", project.id), {
+      projectId: Number(project.projectId),
+      name: project.name,
+      client: project.client,
+      status: project.status,
+      priority: project.priority,
+      progress: Number(project.progress),
+      start: project.start,
+      end: project.end,
+    });
+  };
+
+  // Delete Project
+  const deleteProject = async (id) => {
+    if (!window.confirm("Delete Project?")) return;
+
+    await deleteDoc(doc(db, "projects", id));
+  };
+
   return (
     <ProjectContext.Provider
       value={{
         projects,
         addProject,
-        deleteProject,
         updateProject,
+        deleteProject,
       }}
     >
       {children}

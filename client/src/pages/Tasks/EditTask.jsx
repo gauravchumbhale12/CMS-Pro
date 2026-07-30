@@ -16,33 +16,76 @@ function EditTask({
   } = useNotification();
 
   useEffect(() => {
-    setEditTask(task);
+    if (task) {
+      setEditTask(task);
+    }
   }, [task]);
 
+  if (!task) return null;
+
   const handleChange = (e) => {
-    setEditTask({
-      ...editTask,
-      [e.target.name]: e.target.value,
-    });
+    const { name, value } = e.target;
+
+    // Project Name → Project ID
+    if (name === "project") {
+      const selectedProject = projects.find(
+        (p) => p.name === value
+      );
+
+      setEditTask((prev) => ({
+        ...prev,
+        project: value,
+        projectId: selectedProject
+          ? Number(selectedProject.projectId)
+          : "",
+      }));
+
+      return;
+    }
+
+    // Project ID → Project Name
+    if (name === "projectId") {
+      const selectedProject = projects.find(
+        (p) =>
+          Number(p.projectId) === Number(value)
+      );
+
+      setEditTask((prev) => ({
+        ...prev,
+        projectId: Number(value),
+        project: selectedProject
+          ? selectedProject.name
+          : "",
+      }));
+
+      return;
+    }
+
+    setEditTask((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   const handleSave = () => {
+    const updatedTask = {
+      ...editTask,
+      projectId: Number(editTask.projectId),
+    };
 
-    // Update Task
-    onUpdate(editTask);
+    // Update Only This Task
+    onUpdate(updatedTask);
 
-    // Remove old notification
-    removeNotification(editTask.id);
+    // Remove Old Notification
+    removeNotification(updatedTask.id);
 
-    // Completed असेल तर Notification Remove
-    if (editTask.status !== "Completed") {
-      addNotification(editTask);
+    // Add Notification Again
+    if (updatedTask.status !== "Completed") {
+      addNotification(updatedTask);
     }
 
     onClose();
   };
-
-  if (!task) return null;
 
   return (
     <div className="popup">
@@ -50,18 +93,38 @@ function EditTask({
 
         <h2>Edit Task</h2>
 
-        <input
-          type="number"
-          name="id"
-          value={editTask.id}
+        {/* Project ID */}
+
+        <select
+          name="projectId"
+          value={editTask.projectId}
           onChange={handleChange}
-        />
+        >
+          <option value="">
+            Select Project ID
+          </option>
+
+          {projects.map((project) => (
+            <option
+              key={project.id}
+              value={project.projectId}
+            >
+              {project.projectId}
+            </option>
+          ))}
+        </select>
+
+        {/* Project Name */}
 
         <select
           name="project"
           value={editTask.project}
           onChange={handleChange}
         >
+          <option value="">
+            Select Project
+          </option>
+
           {projects.map((project) => (
             <option
               key={project.id}
@@ -72,6 +135,8 @@ function EditTask({
           ))}
         </select>
 
+        {/* Task Name */}
+
         <input
           type="text"
           name="name"
@@ -79,12 +144,16 @@ function EditTask({
           onChange={handleChange}
         />
 
+        {/* Date */}
+
         <input
           type="date"
           name="date"
           value={editTask.date}
           onChange={handleChange}
         />
+
+        {/* Priority */}
 
         <select
           name="priority"
@@ -96,6 +165,8 @@ function EditTask({
           <option>High</option>
         </select>
 
+        {/* Status */}
+
         <select
           name="status"
           value={editTask.status}
@@ -105,6 +176,8 @@ function EditTask({
           <option>In Progress</option>
           <option>Completed</option>
         </select>
+
+        {/* Description */}
 
         <textarea
           name="description"

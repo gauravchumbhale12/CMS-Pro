@@ -31,14 +31,89 @@ function ProjectReportTable() {
 
   const filteredProjects = projects.filter((project) => {
     const matchSearch =
-      project.name.toLowerCase().includes(search.toLowerCase()) ||
-      project.client.toLowerCase().includes(search.toLowerCase());
+      project.name
+        .toLowerCase()
+        .includes(search.toLowerCase()) ||
+      project.client
+        .toLowerCase()
+        .includes(search.toLowerCase());
 
     const matchFilter =
-      filter === "All" || project.status === filter;
+      filter === "All" ||
+      project.status === filter;
 
     return matchSearch && matchFilter;
   });
+
+  // Export Excel
+  const exportExcel = () => {
+    const worksheet = XLSX.utils.json_to_sheet(projects);
+
+    const workbook = XLSX.utils.book_new();
+
+    XLSX.utils.book_append_sheet(
+      workbook,
+      worksheet,
+      "Projects"
+    );
+
+    const excelBuffer = XLSX.write(workbook, {
+      bookType: "xlsx",
+      type: "array",
+    });
+
+    const data = new Blob([excelBuffer], {
+      type:
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8",
+    });
+
+    saveAs(data, "Project_Report.xlsx");
+  };
+
+  // Export PDF
+  const exportPDF = () => {
+    const doc = new jsPDF();
+
+    doc.setFontSize(18);
+    doc.text("Project Report", 14, 20);
+
+    autoTable(doc, {
+      startY: 30,
+      head: [
+        [
+          "work Order No",
+          "Project",
+          "Customer",
+          "Status",
+          "Start",
+          "End",
+        ],
+      ],
+      body: projects.map((project) => [
+        project.projectId,
+        project.name,
+        project.client,
+        project.status,
+        project.start,
+        project.end,
+      ]),
+    });
+
+    doc.save("Project_Report.pdf");
+  };
+
+  // Print
+  const printReport = () => {
+    window.print();
+  };
+
+  // Google Sheet
+  const openProjectSheet = () => {
+    window.open(
+      "https://docs.google.com/spreadsheets/d/14x_yjvqcuhEJtVBM3gFkliGXtnVcGdgE/edit?gid=2095765999#gid=2095765999",
+      "_blank"
+    );
+  };
 
   return (
     <>
@@ -51,12 +126,16 @@ function ProjectReportTable() {
               type="text"
               placeholder="Search Project..."
               value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              onChange={(e) =>
+                setSearch(e.target.value)
+              }
             />
 
             <select
               value={filter}
-              onChange={(e) => setFilter(e.target.value)}
+              onChange={(e) =>
+                setFilter(e.target.value)
+              }
             >
               <option>All</option>
               <option>Running</option>
@@ -65,16 +144,36 @@ function ProjectReportTable() {
             </select>
 
             <AddProject onAdd={handleAddProject} />
+
+            <button
+              className="excelBtn"
+              onClick={exportExcel}
+            >
+              Excel
+            </button>
+
+            <button
+              className="pdfBtn"
+              onClick={exportPDF}
+            >
+              PDF
+            </button>
+
+            <button
+              className="sheetBtn"
+              onClick={openProjectSheet}
+            >
+              Project Sheet
+            </button>
           </div>
         </div>
-        
 
         <table>
           <thead>
             <tr>
-              <th>ID</th>
-              <th>Project</th>
-              <th>Client</th>
+              <th>Work Order No</th>
+              <th>Project Name</th>
+              <th>Customer</th>
               <th>Status</th>
               <th>Start</th>
               <th>End</th>
@@ -86,39 +185,41 @@ function ProjectReportTable() {
             {filteredProjects.map((project) => (
               <tr key={project.id}>
                 <td>{project.projectId}</td>
+
                 <td>{project.name}</td>
+
                 <td>{project.client}</td>
 
                 <td>
-                  <span className={project.status.toLowerCase()}>
+                  <span
+                    className={project.status.toLowerCase()}
+                  >
                     {project.status}
                   </span>
                 </td>
 
                 <td>{project.start}</td>
+
                 <td>{project.end}</td>
 
                 <td>
                   <button
                     className="editBtn"
-                    onClick={() => setSelectedProject(project)}
+                    onClick={() =>
+                      setSelectedProject(project)
+                    }
                   >
                     Edit
                   </button>
 
-
                   <button
                     className="deleteBtn"
-                    onClick={() => handleDelete(project.id)}
+                    onClick={() =>
+                      handleDelete(project.id)
+                    }
                   >
                     Delete
                   </button>
-                                   <button
-  className="excelBtn"
-  onClick={exportExcel}
->
-  Export Excel
-</button>
                 </td>
               </tr>
             ))}
@@ -128,64 +229,12 @@ function ProjectReportTable() {
 
       <EditProject
         project={selectedProject}
-        onClose={() => setSelectedProject(null)}
+        onClose={() =>
+          setSelectedProject(null)
+        }
       />
     </>
   );
 }
-
-const exportExcel = () => {
-  const worksheet = XLSX.utils.json_to_sheet(projects);
-
-  const workbook = XLSX.utils.book_new();
-
-  XLSX.utils.book_append_sheet(
-    workbook,
-    worksheet,
-    "Projects"
-  );
-
-  const excelBuffer = XLSX.write(workbook, {
-    bookType: "xlsx",
-    type: "array",
-  });
-
-  const data = new Blob([excelBuffer], {
-    type:
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8",
-  });
-
-  saveAs(data, "Project_Report.xlsx");
-};
-const exportPDF = () => {
-  const doc = new jsPDF();
-
-  doc.setFontSize(18);
-  doc.text("Project Report", 14, 20);
-
-  autoTable(doc, {
-    startY: 30,
-    head: [["ID", "Project", "Client", "Status", "Start", "End"]],
-    body: projects.map((project) => [
-      project.id,
-      project.name,
-      project.client,
-      project.status,
-      project.start,
-      project.end,
-    ]),
-  });
-
-  doc.save("Project_Report.pdf");
-};
-const printReport = () => {
-  window.print();
-};
-const openProjectSheet = () => {
-  window.open(
-    "https://docs.google.com/spreadsheets/d/14x_yjvqcuhEJtVBM3gFkliGXtnVcGdgE/edit?gid=2095765999#gid=2095765999",
-    "_blank"
-  );
-};
 
 export default ProjectReportTable;

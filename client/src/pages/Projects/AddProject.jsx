@@ -120,20 +120,7 @@ function AddProject({ onAdd }) {
               <option value="High">High Priority</option>
             </select>
 
-            <div className="progressBox">
-              <label>
-                Progress : {project.progress}%
-              </label>
-
-              <input
-                type="range"
-                min="0"
-                max="100"
-                name="progress"
-                value={project.progress}
-                onChange={handleChange}
-              />
-            </div>
+           
 
             <input
               type="date"

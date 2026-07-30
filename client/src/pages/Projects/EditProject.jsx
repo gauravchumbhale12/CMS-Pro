@@ -7,6 +7,7 @@ function EditProject({ project, onClose }) {
 
   const [form, setForm] = useState({
     id: "",
+    projectId: "",
     name: "",
     client: "",
     status: "",
@@ -14,14 +15,19 @@ function EditProject({ project, onClose }) {
     end: "",
   });
 
- useEffect(() => {
-  if (project) {
-    setForm({
-      ...project,
-      oldId: project.id,
-    });
-  }
-}, [project]);
+  useEffect(() => {
+    if (project) {
+      setForm({
+        id: project.id,
+        projectId: project.projectId || "",
+        name: project.name || "",
+        client: project.client || "",
+        status: project.status || "",
+        start: project.start || "",
+        end: project.end || "",
+      });
+    }
+  }, [project]);
 
   if (!project) return null;
 
@@ -32,8 +38,8 @@ function EditProject({ project, onClose }) {
     });
   };
 
-  const saveProject = () => {
-    updateProject(form);
+  const saveProject = async () => {
+    await updateProject(form);
     onClose();
   };
 
@@ -44,21 +50,25 @@ function EditProject({ project, onClose }) {
         <h2>Edit Project</h2>
 
         <input
-  type="number"
-  name="id"
-  placeholder="Project ID"
-  value={form.id}
-  onChange={handleChange}
-/>
+          type="text"
+          name="projectId"
+          placeholder="Project ID"
+          value={form.projectId}
+          onChange={handleChange}
+        />
 
         <input
+          type="text"
           name="name"
+          placeholder="Project Name"
           value={form.name}
           onChange={handleChange}
         />
 
         <input
+          type="text"
           name="client"
+          placeholder="Client Name"
           value={form.client}
           onChange={handleChange}
         />
@@ -68,18 +78,20 @@ function EditProject({ project, onClose }) {
           value={form.status}
           onChange={handleChange}
         >
-          <option>Running</option>
-          <option>Completed</option>
-          <option>Pending</option>
+          <option value="Running">Running</option>
+          <option value="Completed">Completed</option>
+          <option value="Pending">Pending</option>
         </select>
 
         <input
+          type="date"
           name="start"
           value={form.start}
           onChange={handleChange}
         />
 
         <input
+          type="date"
           name="end"
           value={form.end}
           onChange={handleChange}

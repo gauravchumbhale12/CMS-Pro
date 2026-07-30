@@ -26,9 +26,9 @@ export const ProjectProvider = ({ children }) => {
     const unsubscribe = onSnapshot(
       collection(db, "projects"),
       (snapshot) => {
-        const list = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
+        const list = snapshot.docs.map((item) => ({
+          id: item.id,
+          ...item.data(),
         }));
 
         setProjects(list);
@@ -40,37 +40,52 @@ export const ProjectProvider = ({ children }) => {
 
   // Add Project
   const addProject = async (project) => {
-    await addDoc(collection(db, "projects"), {
-      projectId: Number(project.id),
-      name: project.name,
-      client: project.client,
-      status: project.status,
-      priority: project.priority,
-      progress: Number(project.progress),
-      start: project.start,
-      end: project.end,
-    });
+    try {
+      await addDoc(collection(db, "projects"), {
+        projectId: Number(project.id),
+        name: project.name,
+        client: project.client,
+        status: project.status,
+        priority: project.priority,
+        progress: Number(project.progress),
+        start: project.start,
+        end: project.end,
+      });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   // Update Project
   const updateProject = async (project) => {
-    await updateDoc(doc(db, "projects", project.id), {
-      projectId: Number(project.projectId),
-      name: project.name,
-      client: project.client,
-      status: project.status,
-      priority: project.priority,
-      progress: Number(project.progress),
-      start: project.start,
-      end: project.end,
-    });
+    try {
+      const projectRef = doc(db, "projects", project.id);
+
+      await updateDoc(projectRef, {
+        projectId: Number(project.projectId),
+        name: project.name,
+        client: project.client,
+        status: project.status,
+        start: project.start,
+        end: project.end,
+      });
+
+      console.log("Project Updated Successfully");
+    } catch (err) {
+      console.log("Update Error:", err);
+      alert("Project Update Failed");
+    }
   };
 
   // Delete Project
   const deleteProject = async (id) => {
     if (!window.confirm("Delete Project?")) return;
 
-    await deleteDoc(doc(db, "projects", id));
+    try {
+      await deleteDoc(doc(db, "projects", id));
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (

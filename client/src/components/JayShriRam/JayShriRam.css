@@ -1,0 +1,196 @@
+/* Full Screen Overlay */
+
+.welcome {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  overflow: hidden;
+
+  z-index: 999999;
+
+  animation: fadeIn .5s ease;
+}
+
+/* Orange Glow Background */
+
+.overlay {
+  position: absolute;
+  inset: 0;
+
+  background:
+    radial-gradient(circle at center,
+      rgba(255, 140, 0, .35),
+      transparent 65%);
+
+  animation: glow 2s infinite alternate;
+}
+
+/* Shri Ram Image */
+
+.ramImage {
+
+  position: relative;
+  z-index: 5;
+
+  width: 90vw;
+  max-width: 900px;
+
+  max-height: 72vh;
+
+  object-fit: contain;
+
+  filter:
+    drop-shadow(0 0 30px #ff9800)
+    drop-shadow(0 0 70px #ff6a00);
+
+  animation: zoom 3s ease;
+}
+
+/* Loading Bar */
+
+.loading {
+
+  width: 420px;
+  max-width: 80vw;
+
+  height: 10px;
+
+  margin-top: 35px;
+
+  background: rgba(255,255,255,.18);
+
+  border-radius: 30px;
+
+  overflow: hidden;
+
+  position: relative;
+
+  z-index: 5;
+}
+
+.loadingBar {
+
+  width: 0%;
+  height: 100%;
+
+  border-radius: 30px;
+
+  background:
+  linear-gradient(
+      90deg,
+      #ff6a00,
+      #ff9800,
+      #ffd54f);
+
+  animation: loading 3s linear forwards;
+}
+
+/* Loading Text */
+
+.loadingText {
+
+  margin-top: 18px;
+
+  color: white;
+
+  font-size: 18px;
+
+  font-weight: 600;
+
+  letter-spacing: 2px;
+
+  text-shadow: 0 0 10px black;
+
+  z-index: 5;
+}
+
+/* Animations */
+
+@keyframes loading {
+
+  from {
+
+    width: 0%;
+
+  }
+
+  to {
+
+    width: 100%;
+
+  }
+
+}
+
+@keyframes zoom {
+
+  0% {
+
+    transform: scale(.70);
+
+    opacity: 0;
+
+  }
+
+  35% {
+
+    transform: scale(1.05);
+
+    opacity: 1;
+
+  }
+
+  100% {
+
+    transform: scale(1);
+
+  }
+
+}
+
+@keyframes glow {
+
+  from {
+
+    transform: scale(1);
+
+    opacity: .6;
+
+  }
+
+  to {
+
+    transform: scale(1.2);
+
+    opacity: 1;
+
+  }
+
+}
+
+@keyframes fadeIn {
+
+  from {
+
+    opacity: 0;
+
+  }
+
+  to {
+
+    opacity: 1;
+
+  }
+
+}

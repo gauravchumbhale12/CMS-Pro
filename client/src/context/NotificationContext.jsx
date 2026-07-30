@@ -1,77 +1,130 @@
-import { createContext, useContext, useState } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+} from "react";
 
 const NotificationContext = createContext();
 
 export function NotificationProvider({ children }) {
+  const [notifications, setNotifications] = useState(() => {
+    const saved = localStorage.getItem("notifications");
 
-  const [notifications, setNotifications] = useState([]);
+    return saved ? JSON.parse(saved) : [];
+  });
 
-  // Add / Update Notification
+  useEffect(() => {
+    localStorage.setItem(
+      "notifications",
+      JSON.stringify(notifications)
+    );
+  }, [notifications]);
+
+  // ============================
+  // ADD / UPDATE NOTIFICATION
+  // ============================
+
   const addNotification = (task) => {
-
     setNotifications((prev) => {
-
-      // आधीची notification remove करा
+      // त्या Task ची जुनी Notification Remove
       const filtered = prev.filter(
-        (item) => item.id !== task.id
+        (item) => item.taskId !== task.id
       );
 
-      // Completed असेल तर Notification remove
+      // Completed असेल तर Notification ठेवू नका
       if (task.status === "Completed") {
         return filtered;
       }
 
-      // Pending / In Progress Notification
-      return [
-        {
-          id: task.id,
+      const notification = {
+        id: Date.now() + Math.random(),
 
-          message:
-            task.status === "Pending"
-              ? `🟡 ${task.name}`
-              : `🔵 ${task.name}`,
+        taskId: task.id,
 
-          project: task.project,
+        projectId: task.projectId,
 
-          status: task.status,
+        project: task.project,
 
-          time: new Date().toLocaleTimeString("en-IN", {
+        taskName: task.name,
+
+        priority: task.priority,
+
+        status: task.status,
+
+        message:
+          task.status === "Pending"
+            ? `🟡 ${task.name}`
+            : `🔵 ${task.name}`,
+
+        time: new Date().toLocaleTimeString(
+          "en-IN",
+          {
             hour: "2-digit",
             minute: "2-digit",
             second: "2-digit",
-          }),
-        },
+          }
+        ),
+      };
 
-        ...filtered,
-      ];
-
+      return [notification, ...filtered];
     });
-
   };
 
-  // Remove Notification
-  const removeNotification = (id) => {
+  // ============================
+  // REMOVE SINGLE TASK NOTIFICATION
+  // ============================
 
+  const removeNotification = (taskId) => {
     setNotifications((prev) =>
-      prev.filter((item) => item.id !== id)
+      prev.filter(
+        (item) => item.taskId !== taskId
+      )
     );
-
   };
+
+  // ============================
+  // REMOVE ALL NOTIFICATIONS OF PROJECT
+  // ============================
+
+  const removeProjectNotifications = (
+    projectId
+  ) => {
+    setNotifications((prev) =>
+      prev.filter(
+        (item) =>
+          Number(item.projectId) !==
+          Number(projectId)
+      )
+    );
+  };
+
+  // ============================
+  // CLEAR ALL NOTIFICATIONS
+  // ============================
+
+  const clearNotifications = () => {
+    setNotifications([]);
+
+    localStorage.removeItem(
+      "notifications"
+    );
+  };
+  
 
   return (
-
     <NotificationContext.Provider
       value={{
         notifications,
         addNotification,
         removeNotification,
+        removeProjectNotifications,
+        clearNotifications,
       }}
     >
       {children}
     </NotificationContext.Provider>
-
   );
-
 }
 
 export const useNotification = () =>

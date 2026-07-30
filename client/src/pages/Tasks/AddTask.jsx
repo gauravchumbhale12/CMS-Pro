@@ -3,34 +3,66 @@ import "./AddTask.css";
 import { useNotification } from "../../context/NotificationContext";
 
 function AddTask({ onAdd, projects }) {
-
   const [open, setOpen] = useState(false);
 
   const { addNotification } = useNotification();
 
-  const [task, setTask] = useState({
-    id: "",
+  // Today's Date
+  const getToday = () => new Date().toISOString().split("T")[0];
+
+  const createTask = () => ({
+    id: Date.now() + Math.floor(Math.random() * 100000),
+    projectId: "",
     project: "",
     name: "",
-    date: "",
+    date: getToday(), // Auto Fill Today's Date
     priority: "Medium",
     status: "Pending",
     description: "",
   });
 
+  const [task, setTask] = useState(createTask);
+
   const handleChange = (e) => {
-    setTask({
-      ...task,
-      [e.target.name]: e.target.value,
-    });
+    const { name, value } = e.target;
+
+    if (name === "projectId") {
+      const selectedProject = projects.find(
+        (p) => String(p.projectId) === value
+      );
+
+      setTask((prev) => ({
+        ...prev,
+        projectId: value,
+        project: selectedProject ? selectedProject.name : "",
+      }));
+      return;
+    }
+
+    if (name === "project") {
+      const selectedProject = projects.find(
+        (p) => p.name === value
+      );
+
+      setTask((prev) => ({
+        ...prev,
+        project: value,
+        projectId: selectedProject ? selectedProject.projectId : "",
+      }));
+      return;
+    }
+
+    setTask((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   const handleSave = () => {
-
     if (
-      task.id === "" ||
+      task.projectId === "" ||
       task.project === "" ||
-      task.name === "" ||
+      task.name.trim() === "" ||
       task.date === ""
     ) {
       alert("Please fill all fields");
@@ -39,61 +71,58 @@ function AddTask({ onAdd, projects }) {
 
     const newTask = {
       ...task,
-      id: Number(task.id),
+      projectId: Number(task.projectId),
     };
 
     onAdd(newTask);
+    addNotification(newTask);
 
-    // Notification Add
-    addNotification(`🆕 New Task Added : ${task.name}`);
+    alert("Task Added Successfully");
 
-    setTask({
-      id: "",
-      project: "",
-      name: "",
-      date: "",
-      priority: "Medium",
-      status: "Pending",
-      description: "",
-    });
-
+    setTask(createTask());
     setOpen(false);
+  };
 
+  const handleOpen = () => {
+    setTask(createTask()); // Every time popup opens, today's date is refreshed
+    setOpen(true);
   };
 
   return (
     <>
-      <button
-        className="openBtn"
-        onClick={() => setOpen(true)}
-      >
+      <button className="openBtn" onClick={handleOpen}>
         + Add Task
       </button>
 
       {open && (
-
         <div className="popup">
-
           <div className="popupBox">
 
             <h2>Add Task</h2>
 
-            <input
-              type="number"
-              name="id"
-              placeholder="Task ID"
-              value={task.id}
+            <select
+              name="projectId"
+              value={task.projectId}
               onChange={handleChange}
-            />
+            >
+              <option value="">Select Project ID</option>
+
+              {projects.map((project) => (
+                <option
+                  key={project.id}
+                  value={project.projectId}
+                >
+                  {project.projectId}
+                </option>
+              ))}
+            </select>
 
             <select
               name="project"
               value={task.project}
               onChange={handleChange}
             >
-              <option value="">
-                Select Project
-              </option>
+              <option value="">Select Project</option>
 
               {projects.map((project) => (
                 <option
@@ -103,7 +132,6 @@ function AddTask({ onAdd, projects }) {
                   {project.name}
                 </option>
               ))}
-
             </select>
 
             <input
@@ -126,9 +154,9 @@ function AddTask({ onAdd, projects }) {
               value={task.priority}
               onChange={handleChange}
             >
-              <option>Low</option>
-              <option>Medium</option>
-              <option>High</option>
+              <option value="Low">Low</option>
+              <option value="Medium">Medium</option>
+              <option value="High">High</option>
             </select>
 
             <select
@@ -136,9 +164,9 @@ function AddTask({ onAdd, projects }) {
               value={task.status}
               onChange={handleChange}
             >
-              <option>Pending</option>
-              <option>In Progress</option>
-              <option>Completed</option>
+              <option value="Pending">Pending</option>
+              <option value="In Progress">In Progress</option>
+              <option value="Completed">Completed</option>
             </select>
 
             <textarea
@@ -149,7 +177,6 @@ function AddTask({ onAdd, projects }) {
             />
 
             <div className="buttons">
-
               <button
                 className="saveBtn"
                 onClick={handleSave}
@@ -159,17 +186,17 @@ function AddTask({ onAdd, projects }) {
 
               <button
                 className="cancelBtn"
-                onClick={() => setOpen(false)}
+                onClick={() => {
+                  setTask(createTask());
+                  setOpen(false);
+                }}
               >
                 Cancel
               </button>
-
             </div>
 
           </div>
-
         </div>
-
       )}
     </>
   );

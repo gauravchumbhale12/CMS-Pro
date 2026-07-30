@@ -5,27 +5,31 @@ import { useNavigate } from "react-router-dom";
 import { useAdmin } from "../../context/AdminContext";
 import { useAuth } from "../../context/AuthContext";
 
+import JayShriRam from "../../components/JayShriRam/JayShriRam";
+
 function Login() {
   const navigate = useNavigate();
 
   const { admins } = useAdmin();
   const { login } = useAuth();
-  
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const [showWelcome, setShowWelcome] = useState(false);
+  const [loading, setLoading] = useState(false);
+
   const handleLogin = () => {
-    console.log(admins);
-    if (email.trim() === "" || password.trim() === "") {
+    if (loading) return;
+
+    if (!email.trim() || !password.trim()) {
       alert("Please enter Email and Password");
       return;
     }
 
     const user = admins.find(
       (admin) =>
-        admin.email.toLowerCase() ===
-          email.trim().toLowerCase() &&
+        admin.email.toLowerCase() === email.trim().toLowerCase() &&
         admin.password === password.trim()
     );
 
@@ -39,13 +43,20 @@ function Login() {
       return;
     }
 
-    // Save Logged In User
+    setLoading(true);
+
     login(user);
 
-    alert(`Welcome ${user.name}`);
+    setShowWelcome(true);
 
-    navigate("/dashboard");
+    setTimeout(() => {
+      navigate("/dashboard", { replace: true });
+    }, 3000);
   };
+
+  if (showWelcome) {
+    return <JayShriRam />;
+  }
 
   return (
     <div className="login-page">
@@ -57,6 +68,7 @@ function Login() {
         <input
           type="email"
           placeholder="Email Address"
+          autoComplete="off"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
@@ -64,6 +76,7 @@ function Login() {
         <input
           type="password"
           placeholder="Password"
+          autoComplete="off"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           onKeyDown={(e) => {
@@ -73,8 +86,11 @@ function Login() {
           }}
         />
 
-        <button onClick={handleLogin}>
-          Login
+        <button
+          onClick={handleLogin}
+          disabled={loading}
+        >
+          {loading ? "Please Wait..." : "Login"}
         </button>
       </div>
     </div>

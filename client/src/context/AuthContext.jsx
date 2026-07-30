@@ -12,12 +12,13 @@ const AuthContext = createContext();
 export function AuthProvider({ children }) {
   const { admins } = useAdmin();
 
+  // Current Logged In User
   const [currentUser, setCurrentUser] = useState(() => {
     const savedUser = sessionStorage.getItem("currentUser");
-
     return savedUser ? JSON.parse(savedUser) : null;
   });
 
+  // Save User in Session
   useEffect(() => {
     if (currentUser) {
       sessionStorage.setItem(
@@ -29,7 +30,7 @@ export function AuthProvider({ children }) {
     }
   }, [currentUser]);
 
-  // Realtime Current User Update
+  // Realtime Sync with Firestore
   useEffect(() => {
     if (!currentUser) return;
 
@@ -40,23 +41,40 @@ export function AuthProvider({ children }) {
     if (latestUser) {
       setCurrentUser(latestUser);
     }
-  }, [admins]);
+  }, [admins, currentUser]);
 
+  // Login
   const login = (user) => {
     setCurrentUser(user);
   };
 
+  // Logout
   const logout = () => {
     setCurrentUser(null);
     sessionStorage.removeItem("currentUser");
+  };
+
+  // Refresh Current User
+  const refreshCurrentUser = () => {
+    if (!currentUser) return;
+
+    const latestUser = admins.find(
+      (admin) => admin.id === currentUser.id
+    );
+
+    if (latestUser) {
+      setCurrentUser(latestUser);
+    }
   };
 
   return (
     <AuthContext.Provider
       value={{
         currentUser,
+        setCurrentUser,
         login,
         logout,
+        refreshCurrentUser,
       }}
     >
       {children}

@@ -108,6 +108,13 @@ export function AdminProvider({ children }) {
     });
   };
 
+  // Change Password
+  const changePassword = async (id, newPassword) => {
+    await updateDoc(doc(db, "admins", id), {
+      password: newPassword,
+    });
+  };
+
   return (
     <AdminContext.Provider
       value={{
@@ -117,6 +124,7 @@ export function AdminProvider({ children }) {
         deleteAdmin,
         toggleStatus,
         updatePermissions,
+        changePassword,
       }}
     >
       {children}
@@ -124,5 +132,4 @@ export function AdminProvider({ children }) {
   );
 }
 
-export const useAdmin = () =>
-  useContext(AdminContext);
+export const useAdmin = () => useContext(AdminContext);

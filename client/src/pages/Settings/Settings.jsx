@@ -1,10 +1,62 @@
+import { useState } from "react";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import Navbar from "../../components/Navbar/Navbar";
 import "./Settings.css";
+
 import { useTheme } from "../../context/ThemeContext";
+import { useAdmin } from "../../context/AdminContext";
+import { useAuth } from "../../context/AuthContext";
 
 function Settings() {
   const { darkMode, setDarkMode } = useTheme();
+
+ const {
+  currentUser,
+  refreshCurrentUser,
+} = useAuth();
+
+  const { changePassword } = useAdmin();
+
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const handlePasswordChange = async () => {
+    if (!currentPassword || !newPassword || !confirmPassword) {
+      alert("Please fill all fields.");
+      return;
+    }
+
+    if (currentPassword !== currentUser.password) {
+      alert("Current Password is incorrect.");
+      return;
+    }
+
+    if (newPassword.length < 4) {
+      alert("Password must be at least 4 characters.");
+      return;
+    }
+
+    if (newPassword !== confirmPassword) {
+      alert("New Password and Confirm Password do not match.");
+      return;
+    }
+
+try {
+  await changePassword(currentUser.id, newPassword);
+
+  refreshCurrentUser();
+
+  alert("Password Updated Successfully.");
+
+  setCurrentPassword("");
+  setNewPassword("");
+  setConfirmPassword("");
+} catch (error) {
+  console.error(error);
+  alert("Failed to update password.");
+}
+  };
 
   return (
     <div style={{ display: "flex" }}>
@@ -14,7 +66,7 @@ function Settings() {
         style={{
           marginLeft: "260px",
           width: "100%",
-  background: "var(--bg)",
+          background: "var(--bg)",
           minHeight: "100vh",
           padding: "30px",
         }}
@@ -32,16 +84,18 @@ function Settings() {
 
             <input
               type="text"
-              placeholder="Admin Name"
+              value={currentUser?.name || ""}
+              disabled
             />
 
             <input
               type="email"
-              placeholder="Email Address"
+              value={currentUser?.email || ""}
+              disabled
             />
 
-            <button className="save-btn">
-              Save Profile
+            <button className="save-btn" disabled>
+              Profile Locked
             </button>
           </div>
 
@@ -74,10 +128,7 @@ function Settings() {
               <span>Email Notification</span>
 
               <label className="switch">
-                <input
-                  type="checkbox"
-                  defaultChecked
-                />
+                <input type="checkbox" defaultChecked />
 
                 <span className="slider"></span>
               </label>
@@ -87,9 +138,7 @@ function Settings() {
               <span>Desktop Notification</span>
 
               <label className="switch">
-                <input
-                  type="checkbox"
-                />
+                <input type="checkbox" />
 
                 <span className="slider"></span>
               </label>
@@ -103,15 +152,35 @@ function Settings() {
 
             <input
               type="password"
+              placeholder="Current Password"
+              value={currentPassword}
+              onChange={(e) =>
+                setCurrentPassword(e.target.value)
+              }
+            />
+
+            <input
+              type="password"
               placeholder="New Password"
+              value={newPassword}
+              onChange={(e) =>
+                setNewPassword(e.target.value)
+              }
             />
 
             <input
               type="password"
               placeholder="Confirm Password"
+              value={confirmPassword}
+              onChange={(e) =>
+                setConfirmPassword(e.target.value)
+              }
             />
 
-            <button className="save-btn">
+            <button
+              className="save-btn"
+              onClick={handlePasswordChange}
+            >
               Update Password
             </button>
           </div>

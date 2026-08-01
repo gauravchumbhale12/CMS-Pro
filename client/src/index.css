@@ -1,39 +1,70 @@
 *{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Poppins",sans-serif;
 }
 
 body{
-  font-family:Arial, Helvetica, sans-serif;
-  background:#0f172a;
+
+    transition:.35s;
+
+    background:var(--bg);
+
+    color:var(--text);
+
 }
 
-body{
-    transition:.3s;
-}
+/* ---------------- DARK ---------------- */
 
-body.dark-theme{
-    background:#020617;
-}
-
-body.light-theme{
-    background:#f3f4f6;
-}
 :root{
-  --bg:#020617;
-  background:var(--card);
-  --text:#ffffff;
+
+    --bg:#020617;
+
+    --card:#1e293b;
+
+    --card2:#273449;
+
+    --text:#ffffff;
+
+    --border:#334155;
+
+    --primary:#2563eb;
+
 }
+
+/* ---------------- DARK ---------------- */
 
 body.dark-theme{
-  --bg:#020617;
-  background:var(--card);
-  --text:#ffffff;
+
+    --bg:#020617;
+
+    --card:#1e293b;
+
+    --card2:#273449;
+
+    --text:#ffffff;
+
+    --border:#334155;
+
+    --primary:#2563eb;
+
 }
 
+/* ---------------- LIGHT ---------------- */
+
 body.light-theme{
-  --bg:#f3f4f6;
-  --card:#ffffff;
-  --text:#111827;
+
+    --bg:#f3f4f6;
+
+    --card:#ffffff;
+
+    --card2:#f8fafc;
+
+    --text:#111827;
+
+    --border:#d1d5db;
+
+    --primary:#2563eb;
+
 }

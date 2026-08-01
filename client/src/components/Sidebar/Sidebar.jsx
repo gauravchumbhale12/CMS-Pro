@@ -2,6 +2,7 @@ import "./Sidebar.css";
 import { NavLink } from "react-router-dom";
 import { FaUsersCog } from "react-icons/fa";
 import { useAuth } from "../../context/AuthContext";
+import logo from "../../assets/logo-icon.png";
 
 function Sidebar() {
   const { currentUser } = useAuth();
@@ -23,50 +24,81 @@ function Sidebar() {
         };
 
   return (
-    <div className="sidebar">
-      <h1 className="logo">CMS Pro</h1>
+    <aside className="sidebar">
+
+      {/* =========================
+          COMPANY LOGO
+      ========================= */}
+
+      <div className="sidebar-logo">
+
+        <img
+          src={logo}
+          alt="Om-Sai Logo"
+        />
+
+        <h2>OM-SAI</h2>
+
+        <p>Moulds & Plastics</p>
+
+      </div>
+
+    
+
+      {/* =========================
+          NAVIGATION
+      ========================= */}
 
       <nav>
 
         {permissions.dashboard && (
           <NavLink to="/dashboard" className="menu">
-            🏠 <span>Dashboard</span>
+            <span className="menu-icon">🏠</span>
+            <span>Dashboard</span>
           </NavLink>
         )}
 
         {permissions.projects && (
           <NavLink to="/projects" className="menu">
-            📁 <span>Projects</span>
+            <span className="menu-icon">📁</span>
+            <span>Projects</span>
           </NavLink>
         )}
 
         {permissions.tasks && (
           <NavLink to="/tasks" className="menu">
-            ✅ <span>Tasks</span>
+            <span className="menu-icon">✅</span>
+            <span>Tasks</span>
           </NavLink>
         )}
 
         {permissions.reports && (
           <NavLink to="/reports" className="menu">
-            📊 <span>Reports</span>
+            <span className="menu-icon">📊</span>
+            <span>Reports</span>
           </NavLink>
         )}
 
         {permissions.admins && (
           <NavLink to="/admins" className="menu">
-            <FaUsersCog />
+            <span className="menu-icon">
+              <FaUsersCog />
+            </span>
+
             <span>Admins</span>
           </NavLink>
         )}
 
         {permissions.settings && (
           <NavLink to="/settings" className="menu">
-            ⚙️ <span>Settings</span>
+            <span className="menu-icon">⚙️</span>
+            <span>Settings</span>
           </NavLink>
         )}
 
       </nav>
-    </div>
+
+    </aside>
   );
 }
 

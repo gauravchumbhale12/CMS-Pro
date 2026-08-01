@@ -21,7 +21,10 @@ const AdminContext = createContext();
 export function AdminProvider({ children }) {
   const [admins, setAdmins] = useState([]);
 
+  // =========================
   // Realtime Listener
+  // =========================
+
   useEffect(() => {
     const unsubscribe = onSnapshot(
       collection(db, "admins"),
@@ -38,7 +41,10 @@ export function AdminProvider({ children }) {
     return () => unsubscribe();
   }, []);
 
+  // =========================
   // Add Admin
+  // =========================
+
   const addAdmin = async (admin) => {
     await addDoc(collection(db, "admins"), {
       name: admin.name,
@@ -46,6 +52,8 @@ export function AdminProvider({ children }) {
       password: admin.password,
       role: admin.role,
       status: admin.status,
+
+      photo: "",
 
       permissions: {
         dashboard: true,
@@ -58,7 +66,10 @@ export function AdminProvider({ children }) {
     });
   };
 
+  // =========================
   // Update Admin
+  // =========================
+
   const updateAdmin = async (admin) => {
     await updateDoc(doc(db, "admins", admin.id), {
       name: admin.name,
@@ -70,7 +81,10 @@ export function AdminProvider({ children }) {
     });
   };
 
+  // =========================
   // Delete Admin
+  // =========================
+
   const deleteAdmin = async (id) => {
     const admin = admins.find((a) => a.id === id);
 
@@ -84,7 +98,10 @@ export function AdminProvider({ children }) {
     await deleteDoc(doc(db, "admins", id));
   };
 
+  // =========================
   // Active / Inactive
+  // =========================
+
   const toggleStatus = async (id) => {
     const admin = admins.find((a) => a.id === id);
 
@@ -98,7 +115,10 @@ export function AdminProvider({ children }) {
     });
   };
 
+  // =========================
   // Update Permissions
+  // =========================
+
   const updatePermissions = async (
     id,
     permissions
@@ -108,10 +128,44 @@ export function AdminProvider({ children }) {
     });
   };
 
+  // =========================
   // Change Password
-  const changePassword = async (id, newPassword) => {
+  // =========================
+
+  const changePassword = async (
+    id,
+    newPassword
+  ) => {
     await updateDoc(doc(db, "admins", id), {
       password: newPassword,
+    });
+  };
+
+  // =========================
+  // Update Profile
+  // =========================
+
+  const updateProfile = async (
+    id,
+    name,
+    email
+  ) => {
+    await updateDoc(doc(db, "admins", id), {
+      name,
+      email,
+    });
+  };
+
+  // =========================
+  // Update Profile Photo
+  // =========================
+
+  const updateProfilePhoto = async (
+    id,
+    photo
+  ) => {
+    await updateDoc(doc(db, "admins", id), {
+      photo,
     });
   };
 
@@ -119,12 +173,22 @@ export function AdminProvider({ children }) {
     <AdminContext.Provider
       value={{
         admins,
+
         addAdmin,
+
         updateAdmin,
+
         deleteAdmin,
+
         toggleStatus,
+
         updatePermissions,
+
         changePassword,
+
+        updateProfile,
+
+        updateProfilePhoto,
       }}
     >
       {children}
@@ -132,4 +196,5 @@ export function AdminProvider({ children }) {
   );
 }
 
-export const useAdmin = () => useContext(AdminContext);
+export const useAdmin = () =>
+  useContext(AdminContext);

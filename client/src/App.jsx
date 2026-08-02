@@ -14,6 +14,7 @@ import Settings from "./pages/Settings/Settings";
 import Admins from "./pages/Admins/Admins";
 
 import { useAuth } from "./context/AuthContext";
+import ProjectSheet from "./pages/ProjectSheet/ProjectSheet";
 
 function ProtectedRoute({ children }) {
   const { currentUser } = useAuth();
@@ -90,14 +91,11 @@ function App() {
           }
         />
 
+
         <Route
-          path="/admins"
-          element={
-            <ProtectedRoute>
-              <Admins />
-            </ProtectedRoute>
-          }
-        />
+  path="/project-sheet/:id"
+  element={<ProjectSheet />}
+/>
 
       </Routes>
     </BrowserRouter>

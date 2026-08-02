@@ -7,6 +7,7 @@ import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import { useNavigate } from "react-router-dom";
 
 function ProjectReportTable() {
   const {
@@ -14,6 +15,7 @@ function ProjectReportTable() {
     addProject,
     deleteProject,
   } = useProject();
+  const navigate = useNavigate();
 
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("All");
@@ -73,6 +75,7 @@ function ProjectReportTable() {
   // Export PDF
   const exportPDF = () => {
     const doc = new jsPDF();
+    const navigate = useNavigate();
 
     doc.setFontSize(18);
     doc.text("Project Report", 14, 20);
@@ -108,11 +111,8 @@ function ProjectReportTable() {
   };
 
   // Google Sheet
-  const openProjectSheet = () => {
-    window.open(
-      "https://docs.google.com/spreadsheets/d/14x_yjvqcuhEJtVBM3gFkliGXtnVcGdgE/edit?gid=2095765999#gid=2095765999",
-      "_blank"
-    );
+const openProjectSheet = (project) => {
+  navigate(`/project-sheet/${project.id}`);
   };
 
   return (
@@ -145,26 +145,9 @@ function ProjectReportTable() {
 
             <AddProject onAdd={handleAddProject} />
 
-            <button
-              className="excelBtn"
-              onClick={exportExcel}
-            >
-              Excel
-            </button>
 
-            <button
-              className="pdfBtn"
-              onClick={exportPDF}
-            >
-              PDF
-            </button>
 
-            <button
-              className="sheetBtn"
-              onClick={openProjectSheet}
-            >
-              Project Sheet
-            </button>
+  
           </div>
         </div>
 
@@ -220,6 +203,15 @@ function ProjectReportTable() {
                   >
                     Delete
                   </button>
+
+                  <button
+  className="sheetBtn"
+  onClick={() =>
+    navigate(`/project-sheet/${project.id}`)
+  }
+>
+  📋 Sheet
+</button>
                 </td>
               </tr>
             ))}

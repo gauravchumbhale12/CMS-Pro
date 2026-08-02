@@ -12,9 +12,13 @@ import {
   deleteDoc,
   doc,
   onSnapshot,
+    query,
+  where,
+  getDocs,
 } from "firebase/firestore";
 
 import { db } from "../firebase/firebase";
+
 
 const ProjectContext = createContext();
 
@@ -80,6 +84,52 @@ export const ProjectProvider = ({ children }) => {
   // Delete Project
   const deleteProject = async (id) => {
     if (!window.confirm("Delete Project?")) return;
+    // Add Work
+const addWork = async (projectId, work) => {
+  try {
+
+    await addDoc(collection(db, "projectWorks"), {
+
+      projectId,
+
+      title: work.title,
+
+      description: work.description,
+
+      checked: false,
+
+      createdAt: Date.now(),
+
+    });
+
+  } catch (err) {
+
+    console.log(err);
+
+  }
+};
+// Get Works
+const getWorks = async (projectId) => {
+
+  const q = query(
+
+    collection(db, "projectWorks"),
+
+    where("projectId", "==", projectId)
+
+  );
+
+  const snapshot = await getDocs(q);
+
+  return snapshot.docs.map(doc => ({
+
+    id: doc.id,
+
+    ...doc.data(),
+
+  }));
+
+};
 
     try {
       await deleteDoc(doc(db, "projects", id));
@@ -88,18 +138,19 @@ export const ProjectProvider = ({ children }) => {
     }
   };
 
-  return (
-    <ProjectContext.Provider
-      value={{
-        projects,
-        addProject,
-        updateProject,
-        deleteProject,
-      }}
-    >
-      {children}
-    </ProjectContext.Provider>
-  );
+return (
+  <ProjectContext.Provider
+    value={{
+      projects,
+      addProject,
+      updateProject,
+      deleteProject,
+    
+    }}
+  >
+    {children}
+  </ProjectContext.Provider>
+);
 };
 
 export const useProject = () => useContext(ProjectContext);

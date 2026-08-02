@@ -181,12 +181,19 @@ tbody tr:hover{
 }
 
 .sheetBtn{
-    background:#0f766e;
+    background:#0ea5e9;
+    color:white;
+    border:none;
+    padding:10px 16px;
+    border-radius:8px;
+    cursor:pointer;
+    margin-left:10px;
+    font-weight:600;
+    transition:.3s;
 }
 
 .sheetBtn:hover{
-    background:#115e59;
-    transform:translateY(-2px);
+    background:#0284c7;
 }
 
 /* SCROLL */

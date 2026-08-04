@@ -68,7 +68,7 @@ useState(false);
 
     setTimeout(() => {
       navigate("/dashboard", { replace: true });
-    }, 3000);
+    }, 0);
   };
 
 if(showWelcome){
@@ -86,7 +86,7 @@ return <JayShriRam/>;
 
         {/* Logo */}
 
-        <div className="login-logo">
+{/*         <div className="login-logo">
 
           <img
             src={logo}
@@ -97,14 +97,14 @@ return <JayShriRam/>;
 
           <p>Moulds & Plastics</p>
 
-        </div>
+        </div>  */}
 
         {/* Heading */}
 
-        <h1 className="login-title">
+{/*         <h1 className="login-title">
           Welcome Back
         </h1>
-
+ */}
         <p className="login-subtitle">
           Company Management System
         </p>
@@ -177,7 +177,7 @@ return <JayShriRam/>;
 
           <label>
 
-            <input
+{/*             <input
               type="checkbox"
               checked={rememberMe}
               onChange={() =>
@@ -185,9 +185,9 @@ return <JayShriRam/>;
                   !rememberMe
                 )
               }
-            />
+            /> */}
 
-            Remember Me
+            
 
           </label>
 
@@ -219,7 +219,7 @@ return <JayShriRam/>;
 
           <br />
 
-          OM-SAI Moulds & Plastics
+         {/*  OM-SAI Moulds & Plastics */}
 
         </div>
 

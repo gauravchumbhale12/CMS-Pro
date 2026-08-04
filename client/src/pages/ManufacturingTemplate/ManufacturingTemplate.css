@@ -1,0 +1,154 @@
+.template-page{
+    margin-left:260px;
+    width:100%;
+    min-height:100vh;
+    background:var(--bg);
+    padding:30px;
+}
+
+.template-header{
+    margin-top:30px;
+    margin-bottom:30px;
+}
+
+.template-header h1{
+    color:var(--text);
+    font-size:32px;
+    font-weight:700;
+}
+
+.template-add{
+    display:flex;
+    gap:15px;
+    margin-bottom:30px;
+    flex-wrap:wrap;
+}
+
+.template-add select,
+.template-add input{
+    background:#1e293b;
+    color:white;
+    border:1px solid #334155;
+    border-radius:10px;
+    padding:14px;
+    font-size:15px;
+    outline:none;
+}
+
+.template-add select{
+    width:220px;
+}
+
+.template-add input{
+    flex:1;
+    min-width:280px;
+}
+
+.template-add select:focus,
+.template-add input:focus{
+    border-color:#2563eb;
+}
+
+.add-template-btn{
+    background:#16a34a;
+    color:white;
+    border:none;
+    border-radius:10px;
+    padding:14px 22px;
+    cursor:pointer;
+    font-weight:600;
+    transition:.3s;
+}
+
+.add-template-btn:hover{
+    background:#15803d;
+}
+
+.template-list{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(350px,1fr));
+    gap:25px;
+}
+
+.template-card{
+    background:#1e293b;
+    border:1px solid #334155;
+    border-radius:14px;
+    overflow:hidden;
+    transition:.3s;
+}
+
+.template-card:hover{
+    border-color:#2563eb;
+    transform:translateY(-4px);
+}
+
+.template-card h2{
+    background:#0f172a;
+    color:white;
+    padding:16px 20px;
+    font-size:20px;
+    border-bottom:1px solid #334155;
+}
+
+.template-item{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:14px 20px;
+    border-bottom:1px solid #334155;
+}
+
+.template-item:last-child{
+    border-bottom:none;
+}
+
+.template-item span{
+    color:white;
+    font-size:15px;
+}
+
+.delete-template-btn{
+    background:#ef4444;
+    color:white;
+    border:none;
+    border-radius:8px;
+    padding:8px 14px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.delete-template-btn:hover{
+    background:#dc2626;
+}
+
+@media(max-width:992px){
+
+.template-page{
+    margin-left:0;
+    padding:20px;
+}
+
+.template-list{
+    grid-template-columns:1fr;
+}
+
+}
+
+@media(max-width:768px){
+
+.template-add{
+    flex-direction:column;
+}
+
+.template-add select,
+.template-add input,
+.add-template-btn{
+    width:100%;
+}
+
+.template-header h1{
+    font-size:28px;
+}
+
+}

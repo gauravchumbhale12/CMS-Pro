@@ -2,13 +2,43 @@ import "./AddWork.css";
 
 import { useState } from "react";
 
-function AddWork({ onClose, onSave }) {
+function AddWork({
+  onClose,
+  onSave,
+  defaultSection,
+}) {
 
   const [title, setTitle] = useState("");
 
   const [description, setDescription] = useState("");
 
   const handleSave = () => {
+    const [section, setSection] = useState(
+  defaultSection || "BOM"
+);
+
+    <select
+  value={section}
+  onChange={(e)=>setSection(e.target.value)}
+>
+
+  <option>BOM</option>
+
+  <option>Mould Base</option>
+
+  <option>Design</option>
+
+  <option>Manufacturing</option>
+
+  <option>Assembly</option>
+
+  <option>Trial</option>
+
+  <option>Dispatch</option>
+
+  <option>Documentation</option>
+
+</select>
 
     if (!title.trim()) {
       alert("Enter Work Name");

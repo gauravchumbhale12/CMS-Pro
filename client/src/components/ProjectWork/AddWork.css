@@ -65,6 +65,31 @@
     outline:none;
 
 }
+.work-modal select{
+
+    width:100%;
+
+    background:#0f172a;
+
+    color:white;
+
+    border:1px solid #334155;
+
+    border-radius:10px;
+
+    padding:14px;
+
+    margin-bottom:18px;
+
+    outline:none;
+
+}
+
+.work-modal select:focus{
+
+    border-color:#3b82f6;
+
+}
 
 .work-modal input:focus,
 .work-modal textarea:focus{

@@ -1,13 +1,17 @@
 import "./ProjectSheet.css";
 
+import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import Sidebar from "../../components/Sidebar/Sidebar";
 import Navbar from "../../components/Navbar/Navbar";
 
-import { useProject } from "../../context/ProjectContext";
-import { useState } from "react";
 import AddWork from "../../components/ProjectWork/AddWork";
+import EditWork from "../../components/ProjectWork/EditWork";
+import SectionCard from "../../components/ProjectWork/SectionCard";
+
+import { useProject } from "../../context/ProjectContext";
+import { useProjectWork } from "../../context/ProjectWorkContext";
 
 function ProjectSheet() {
 
@@ -17,26 +21,72 @@ function ProjectSheet() {
 
   const { projects } = useProject();
 
+  const {
+    addWork,
+    getProjectWorks,
+    toggleWork,
+    deleteWork,
+    updateWork,
+  } = useProjectWork();
+
+  const [showAddWork, setShowAddWork] =
+    useState(false);
+
+  const [selectedSection, setSelectedSection] =
+    useState("BOM");
+
+  const [selectedWork, setSelectedWork] =
+    useState(null);
+
   const project = projects.find(
     (item) => item.id === id
   );
-  const [showAddWork, setShowAddWork] = useState(false);
-
-const handleSaveWork = (work) => {
-  console.log(work);
-
-  // पुढच्या step मध्ये Firebase मध्ये save करू
-};
 
   if (!project) {
+
     return (
       <div className="project-loading">
-
         <h2>Loading Project...</h2>
-
       </div>
     );
+
   }
+
+  const works = getProjectWorks(project.id);
+
+  const getSectionWorks = (section) =>
+    works.filter(
+      (item) => item.section === section
+    );
+
+  const handleSaveWork = async (work) => {
+
+    await addWork({
+
+      projectId: project.id,
+
+      section: work.section,
+
+      title: work.title,
+
+      description: work.description,
+
+    });
+
+    setShowAddWork(false);
+
+  };
+
+  const handleUpdateWork = async (
+    id,
+    data
+  ) => {
+
+    await updateWork(id, data);
+
+    setSelectedWork(null);
+
+  };
 
   return (
 
@@ -57,101 +107,146 @@ const handleSaveWork = (work) => {
             ← Back
           </button>
 
-          <h1>📋 Project Sheet</h1>
+          <h1>📋 Project Work Register</h1>
 
         </div>
 
         <div className="project-info-card">
 
           <div className="info-box">
-
-            <span>Project Name</span>
-
+            <span>Project</span>
             <h3>{project.name}</h3>
-
           </div>
 
           <div className="info-box">
-
             <span>Customer</span>
-
             <h3>{project.client}</h3>
-
           </div>
 
           <div className="info-box">
-
             <span>Status</span>
-
             <h3>{project.status}</h3>
-
           </div>
 
           <div className="info-box">
-
-            <span>Start Date</span>
-
+            <span>Start</span>
             <h3>{project.start}</h3>
-
           </div>
 
           <div className="info-box">
-
-            <span>End Date</span>
-
+            <span>End</span>
             <h3>{project.end}</h3>
-
           </div>
 
         </div>
+                {/* Sections */}
 
-        <div className="work-toolbar">
+        <SectionCard
+          title="BOM"
+          icon="📦"
+          works={getSectionWorks("BOM")}
+          onToggle={toggleWork}
+          onEdit={setSelectedWork}
+          onDelete={deleteWork}
+          onAddWork={() => {
+            setSelectedSection("BOM");
+            setShowAddWork(true);
+          }}
+        />
 
-          <h2>Project Work Register</h2>
+        <SectionCard
+          title="Mould Base"
+          icon="🧱"
+          works={getSectionWorks("Mould Base")}
+          onToggle={toggleWork}
+          onEdit={setSelectedWork}
+          onDelete={deleteWork}
+          onAddWork={() => {
+            setSelectedSection("Mould Base");
+            setShowAddWork(true);
+          }}
+        />
 
-<button
-  className="add-work-btn"
-  onClick={() => setShowAddWork(true)}
->
-  + Add Work
-</button>
+        <SectionCard
+          title="Design"
+          icon="📐"
+          works={getSectionWorks("Design")}
+          onToggle={toggleWork}
+          onEdit={setSelectedWork}
+          onDelete={deleteWork}
+          onAddWork={() => {
+            setSelectedSection("Design");
+            setShowAddWork(true);
+          }}
+        />
 
-        </div>
+        <SectionCard
+          title="Manufacturing"
+          icon="⚙️"
+          works={getSectionWorks("Manufacturing")}
+          onToggle={toggleWork}
+          onEdit={setSelectedWork}
+          onDelete={deleteWork}
+          onAddWork={() => {
+            setSelectedSection("Manufacturing");
+            setShowAddWork(true);
+          }}
+        />
 
-        <div className="work-list">
+        <SectionCard
+          title="Assembly"
+          icon="🔩"
+          works={getSectionWorks("Assembly")}
+          onToggle={toggleWork}
+          onEdit={setSelectedWork}
+          onDelete={deleteWork}
+          onAddWork={() => {
+            setSelectedSection("Assembly");
+            setShowAddWork(true);
+          }}
+        />
 
-                      <div className="empty-work">
+        <SectionCard
+          title="Trial"
+          icon="🧪"
+          works={getSectionWorks("Trial")}
+          onToggle={toggleWork}
+          onEdit={setSelectedWork}
+          onDelete={deleteWork}
+          onAddWork={() => {
+            setSelectedSection("Trial");
+            setShowAddWork(true);
+          }}
+        />
 
-            <div className="empty-icon">
-              📋
-            </div>
-            {showAddWork && (
+        <SectionCard
+          title="Dispatch"
+          icon="🚚"
+          works={getSectionWorks("Dispatch")}
+          onToggle={toggleWork}
+          onEdit={setSelectedWork}
+          onDelete={deleteWork}
+          onAddWork={() => {
+            setSelectedSection("Dispatch");
+            setShowAddWork(true);
+          }}
+        />
 
-  <AddWork
+        {showAddWork && (
+          <AddWork
+            defaultSection={selectedSection}
+            onClose={() => setShowAddWork(false)}
+            onSave={handleSaveWork}
+          />
+        )}
 
-    onClose={() => setShowAddWork(false)}
-
-    onSave={handleSaveWork}
-
-  />
-
-)}
-
-            <h3>No Work Added Yet</h3>
-
-            <p>
-
-              Click on
-
-              <strong> + Add Work </strong>
-
-              to start your Project Work Register.
-
-            </p>
-
-          </div>
-
-        </div>
+        {selectedWork && (
+          <EditWork
+            work={selectedWork}
+            onClose={() => setSelectedWork(null)}
+            onUpdate={handleUpdateWork}
+          />
+        )}
 
       </div>
 

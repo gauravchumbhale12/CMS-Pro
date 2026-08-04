@@ -5,6 +5,7 @@ import { useAuth } from "../../context/AuthContext";
 import logo from "../../assets/logo-icon.png";
 
 function Sidebar() {
+
   const { currentUser } = useAuth();
 
   if (!currentUser) return null;
@@ -18,32 +19,34 @@ function Sidebar() {
           reports: true,
           admins: true,
           settings: true,
+          template: true,
         }
       : currentUser.permissions || {
           dashboard: true,
         };
 
   return (
+
     <aside className="sidebar">
 
       {/* =========================
           COMPANY LOGO
       ========================= */}
 
+      {/*
       <div className="sidebar-logo">
 
         <img
           src={logo}
-          alt="Om-Sai Logo"
+          alt="Company Logo"
         />
 
-        <h2>OM-SAI</h2>
+        <h2>Company</h2>
 
-        <p>Moulds & Plastics</p>
+        <p>Management System</p>
 
       </div>
-
-    
+      */}
 
       {/* =========================
           NAVIGATION
@@ -52,35 +55,62 @@ function Sidebar() {
       <nav>
 
         {permissions.dashboard && (
-          <NavLink to="/dashboard" className="menu">
+          <NavLink
+            to="/dashboard"
+            className="menu"
+          >
             <span className="menu-icon">🏠</span>
             <span>Dashboard</span>
           </NavLink>
         )}
 
         {permissions.projects && (
-          <NavLink to="/projects" className="menu">
+          <NavLink
+            to="/projects"
+            className="menu"
+          >
             <span className="menu-icon">📁</span>
             <span>Projects</span>
           </NavLink>
         )}
 
         {permissions.tasks && (
-          <NavLink to="/tasks" className="menu">
+          <NavLink
+            to="/tasks"
+            className="menu"
+          >
             <span className="menu-icon">✅</span>
             <span>Tasks</span>
           </NavLink>
         )}
 
         {permissions.reports && (
-          <NavLink to="/reports" className="menu">
+          <NavLink
+            to="/reports"
+            className="menu"
+          >
             <span className="menu-icon">📊</span>
             <span>Reports</span>
           </NavLink>
         )}
 
+        {/* Manufacturing Template - Super Admin Only */}
+
+        {permissions.template && (
+          <NavLink
+            to="/manufacturing-template"
+            className="menu"
+          >
+            <span className="menu-icon">🏭</span>
+            <span>Manufacturing Template</span>
+          </NavLink>
+        )}
+
         {permissions.admins && (
-          <NavLink to="/admins" className="menu">
+          <NavLink
+            to="/admins"
+            className="menu"
+          >
             <span className="menu-icon">
               <FaUsersCog />
             </span>
@@ -90,7 +120,10 @@ function Sidebar() {
         )}
 
         {permissions.settings && (
-          <NavLink to="/settings" className="menu">
+          <NavLink
+            to="/settings"
+            className="menu"
+          >
             <span className="menu-icon">⚙️</span>
             <span>Settings</span>
           </NavLink>
@@ -99,7 +132,9 @@ function Sidebar() {
       </nav>
 
     </aside>
+
   );
+
 }
 
 export default Sidebar;
